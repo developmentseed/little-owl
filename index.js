@@ -4,7 +4,7 @@ let ora = require('ora');
 
 function Owl(opts) {
   if (!(this instanceof Owl)) return new Owl(opts);
-  let outputBucket = opts.outputBucket || process.env.AWS_OUTPUT_BUCKET || 's3://little_owl_athena_output';
+  let outputBucket = opts.outputBucket || process.env.AWS_OUTPUT_BUCKET || 's3://little-owl-athena-output';
 
   this.query = require('./lib/query')({
     credentials: {
