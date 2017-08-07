@@ -2,6 +2,7 @@
 let meow = require('meow');
 let chalk = require('chalk');
 let getStdin = require('get-stdin');
+let Table = require('cli-table');
 
 let owl = require('../')({
   spinner: true
@@ -39,7 +40,11 @@ function run (data) {
 
   owl.runQuery(data, function (err, results) {
     if (!err) {
-      console.log(results);
+      let table = new Table({
+        head: results.shift()
+      });
+      results.forEach(row => table.push(row));
+      console.log(table.toString());
     }
   });
 }

@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 let ora = require('ora');
-let Table = require('cli-table');
 
 function Owl(opts) {
   if (!(this instanceof Owl)) return new Owl(opts);
@@ -39,11 +38,7 @@ Owl.prototype.runQuery = function (sql, callback) {
         }
         else {
           spinner.succeed();
-          let table = new Table({
-            head: rows.shift()
-          })
-          rows.forEach(row => table.push(row));
-          callback(null, table.toString());
+          callback(null, rows);
         }
       })
     }
