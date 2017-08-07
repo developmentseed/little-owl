@@ -29,7 +29,7 @@ Options is an object with the following keys:
 - accessKeyId: AWS access key
 - secretAccessKey: AWS secret key
 - region: AWS region (default is `us-east-1`)
-- outputBucket: AWS S3 bucket to use for output results, default is `little_owl_athena_output`
+- outputBucket: AWS S3 bucket to use for output results, default is `little-owl-athena-output`
 - spinner: whether to render a spinner in the TTY
 
 ### runQuery(query, callback)
