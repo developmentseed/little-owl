@@ -1,6 +1,6 @@
 {
   "name": "little-owl",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A companion to AWS Athena 🦉",
   "main": "index.js",
   "author": "Development Seed <dev@developmentseed.org>",
