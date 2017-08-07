@@ -4,6 +4,7 @@
   "description": "A companion to AWS Athena 🦉",
   "main": "index.js",
   "author": "Development Seed <dev@developmentseed.org>",
+  "repository": "developmentseed/little-owl",
   "license": "MIT",
   "bin": {
     "little-owl": "./bin/cli.js"

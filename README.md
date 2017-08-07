@@ -1,4 +1,6 @@
-🦉 `little-owl` is a library of helper functions to query AWS Athena
+# 🦉 little-owl [![npm version](https://badge.fury.io/js/little-owl.svg)](https://badge.fury.io/js/little-owl)
+
+A library of helper functions to query AWS Athena.
 
 ## Installation
 ```
@@ -6,22 +8,21 @@ npm install little-owl
 ```
 
 ## Usage
-```
+```javascript
 const owl = require('little-owl')({
   accessKeyId: 'MY_AWS_ACCESS_KEY',
   secretAccessKey: 'MY_AWS_SECRET_KEY'
 });
 
-owl.runQuery('SELECT * from bigtable', function (err, data) {
+owl.runQuery('SELECT * from owls', function (err, data) {
   if (!err) {
     console.log(data);
   }
 });
-
 ```
 
 ## API 
-### owl([options])
+### constructor([options])
 
 Options is an object with the following keys:
 
@@ -31,17 +32,15 @@ Options is an object with the following keys:
 - outputBucket: AWS S3 bucket to use for output results, default is `little_owl_athena_output`
 - spinner: whether to render a spinner in the TTY
 
-### owl.runQuery(query, callback)
+### runQuery(query, callback)
 
 - query is an ANSI SQL string to send to AWS Athena
 - callback is of the form `function (err, results)` where results is an array of rows. The first row is the header.
 
 ## CLI
-`little-owl` also ships with a command line tool. 
+`little-owl` also ships with a command line tool. Install it with `npm install -g little-owl`
 
-Install it with `npm install -g little-owl`
-
-Currently to use the `query` command you should manually setup an Athena database and osm tables. The cli requires the following environment variables to be set:
+The cli requires the following environment variables to be set:
 
 - `AWS_REGION`: Region where the S3 bucket and Athena queries will run (default is `us-east-1`)
 - `AWS_ACCESS_KEY_ID`: AWS access key
@@ -54,7 +53,7 @@ Usage
   $ echo <sql> | little-owl query
 
 Examples
-  $ little-owl query "SELECT count(*) from osm.changesets"
+  $ little-owl query "SELECT count(*) from owls"
 ```
 
 ## License
