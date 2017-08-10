@@ -9,6 +9,10 @@
   "bin": {
     "little-owl": "./bin/cli.js"
   },
+  "scripts": {
+    "prepublish": "npm run doc",
+    "doc": "documentation build index.js -f md --access=public > docs/NODE_API.md"
+  },
   "dependencies": {
     "async": "^2.5.0",
     "aws-sdk": "^2.94.0",
@@ -17,5 +21,8 @@
     "get-stdin": "^5.0.1",
     "meow": "^3.7.0",
     "ora": "^1.3.0"
+  },
+  "devDependencies": {
+    "documentation": "^5.2.0"
   }
 }

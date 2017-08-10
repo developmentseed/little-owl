@@ -3,10 +3,7 @@ let meow = require('meow');
 let chalk = require('chalk');
 let getStdin = require('get-stdin');
 let Table = require('cli-table');
-
-let owl = require('../')({
-  spinner: true
-});
+let ora = require('ora');
 
 let usage = `
 Usage
@@ -32,13 +29,39 @@ if (cli.input.length < 1) {
   cli.showHelp(1);
 }
 
+function runQuery(sql, callback) {
+  let owl = require('../')({});
+  let spinner = ora({});
+  spinner.text = 'Running query';
+  spinner.start();
+
+  owl.submitQuery(sql, function (err, queryId) {
+    if (err) {
+      spinner.fail(err);
+      callback(err);
+    }
+    else {
+      spinner.text = 'Reading output';
+      owl.getQueryResults(queryId, function (err, rows) {
+        if (err) {
+          spinner.fail(err);
+        }
+        else {
+          spinner.succeed();
+          callback(null, rows);
+        }
+      })
+    }
+  })
+}
+
 function run (data) {
   if (!data) {
     console.log("Input required");
     cli.showHelp(1)
   }
 
-  owl.runQuery(data, function (err, results) {
+  runQuery(data, function (err, results) {
     if (!err) {
       let table = new Table({
         head: results.shift()

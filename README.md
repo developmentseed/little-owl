@@ -1,44 +1,14 @@
 # 🦉 little-owl [![npm version](https://badge.fury.io/js/little-owl.svg)](https://badge.fury.io/js/little-owl)
 
-A library of helper functions to query AWS Athena.
+Helper tools to query AWS Athena.
 
-## Installation
 ```
 npm install little-owl
 ```
+## Documentation
+`little-owl` can be used either as a command line tool or as a node library.
 
-## Usage
-```javascript
-const owl = require('little-owl')({
-  accessKeyId: 'MY_AWS_ACCESS_KEY',
-  secretAccessKey: 'MY_AWS_SECRET_KEY'
-});
-
-owl.runQuery('SELECT * from owls', function (err, data) {
-  if (!err) {
-    console.log(data);
-  }
-});
-```
-
-## API 
-### constructor([options])
-
-Options is an object with the following keys:
-
-- accessKeyId: AWS access key
-- secretAccessKey: AWS secret key
-- region: AWS region (default is `us-east-1`)
-- outputBucket: AWS S3 bucket to use for output results, default is `little-owl-athena-output`
-- spinner: whether to render a spinner in the TTY
-
-### runQuery(query, callback)
-
-- query is an ANSI SQL string to send to AWS Athena
-- callback is of the form `function (err, results)` where results is an array of rows. The first row is the header.
-
-## CLI
-`little-owl` also ships with a command line tool. Install it with `npm install -g little-owl`
+### CLI
 
 The cli requires the following environment variables to be set:
 
@@ -55,6 +25,8 @@ Usage
 Examples
   $ little-owl query "SELECT count(*) from owls"
 ```
+
+### [Node API](docs/NODE_API.md)
 
 ## License
 MIT - See [LICENSE.md](LICENSE.md)
