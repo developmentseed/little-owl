@@ -8,7 +8,7 @@
 
 ## owl
 
-An instance of the client
+An instance of the client.
 
 **Parameters**
 
@@ -29,7 +29,7 @@ const owl = require('little-owl')({
 
 ### submitQuery
 
-Submit a query and waits until it returns
+Submit a query and waits until it returns.
 
 **Parameters**
 
