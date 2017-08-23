@@ -48,19 +48,34 @@ owl.submitQuery('SELECT * from owls', (err, queryId) => {
 
 ### getQueryResults
 
-Get results from a submitted query. The results are an array of rows, each row an array of strings.
+Get results from a submitted query. The return object contains:
+results: the results are an array of rows, each row an array of strings.
+nextToken: if the number of results is larger than maxRows, use nextToken to return the next
+set of values
 
 **Parameters**
 
 -   `queryId` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Id of query
+-   `opts` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** Options
+    -   `opts.maxRows` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** maximum number of rows returned (optional, default `1000`)
+    -   `opts.nextToken` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** used for paginated results
 -   `callback` **getQueryResultCallback** node callback (err, results)
 
 **Examples**
 
 ```javascript
-owl.getQueryResults('x2x4gas-12qwsd-a809', (err, results) => {
+owl.getQueryResults('x2x4gas-12qwsd-a809', (err, data) => {
   if (!err) {
-     console.log(results); // results is an array of rows
+     console.log(data.results); // results is an array of rows
+     console.log(data.nextToken); // data.nextToken is used for pagination
+  }
+});
+```
+
+```javascript
+owl.getQueryResults('x2x4gas-12qwsd-a809', {nextToken: '91kaspejk13'}, (err, data) => {
+  if (!err) {
+     console.log(data.results); // results is an array of rows
   }
 });
 ```

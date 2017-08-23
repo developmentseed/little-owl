@@ -109,28 +109,58 @@ owl.prototype.submitQuery = function (queryString, callback) {
 }
 
 /**
- * Get results from a submitted query. The results are an array of rows, each row an array of strings.
+ * Get results from a submitted query. The return object contains:
+ * results: the results are an array of rows, each row an array of strings.
+ * nextToken: if the number of results is larger than maxRows, use nextToken to return the next
+ * set of values
  * @param {string} queryId - Id of query
+ * @param {object} [opts] - Options
+ * @param {number} [opts.maxRows=1000] - maximum number of rows returned
+ * @param {string} [opts.nextToken] - used for paginated results
  * @param {getQueryResultCallback} callback - node callback (err, results) 
  * @public
  * @example
- * owl.getQueryResults('x2x4gas-12qwsd-a809', (err, results) => {
+ * owl.getQueryResults('x2x4gas-12qwsd-a809', (err, data) => {
  *   if (!err) {
- *      console.log(results); // results is an array of rows
+ *      console.log(data.results); // results is an array of rows
+ *      console.log(data.nextToken); // data.nextToken is used for pagination
+ *   }
+ * });
+ *
+ * @example
+ * owl.getQueryResults('x2x4gas-12qwsd-a809', {nextToken: '91kaspejk13'}, (err, data) => {
+ *   if (!err) {
+ *      console.log(data.results); // results is an array of rows
  *   }
  * });
  */
-owl.prototype.getQueryResults = function (queryId, callback) {
-  this.athena.getQueryResults({
+owl.prototype.getQueryResults = function (queryId, opts, callback) {
+  var args = [].slice.call(arguments)
+  queryId = args.shift();
+  callback = args.pop();
+
+  let params = {
     QueryExecutionId: queryId
-  }, function (err, data) {
-    // TODO process pagination
+  }
+
+  // if there are still args, we have an options object
+  if (args.length > 0) {
+    let opts = args.shift();
+    params.MaxResults = opts.maxRows || 1000;
+    if (opts.nextToken) {
+      params.NextToken = opts.nextToken;
+    }
+  }
+
+  this.athena.getQueryResults(params, function (err, data) {
     if (err) callback(err)
     else {
-      let mappedRows = data.ResultSet.Rows.map((row) => {
+      let ret = {};
+      ret.results = data.ResultSet.Rows.map((row) => {
         return row.Data.map(rowItem => rowItem.VarCharValue)
       })
-      callback(null, mappedRows);
+      ret.nextToken = data.NextToken;
+      callback(null, ret);
     }
   });
 }
